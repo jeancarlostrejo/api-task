@@ -45,7 +45,7 @@ class Task extends Model
                 $query->where('description', 'like', '%' . $description . '%');
             }
 
-        })->get();
+        })->orderBy('deadline', 'asc')->get();
 
         return $tasks;
     }

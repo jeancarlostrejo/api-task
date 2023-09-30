@@ -4,11 +4,10 @@
 
 Esta API permite a los usuarios crear, leer, actualizar y eliminar tareas.
 
-## funcionalidades
+## Funcionalidades
 
-+ Los usuarios pueden registrarse y loguearse 
++ Los usuarios pueden registrarse y loguearse.
 + Los usuarios pueden crear, leer, actualizar y eliminar tareas.
-
 + Las tareas tienen los siguientes campos:
     - Título: El título de la tarea.
     - Descripción: Una descripción de la tarea.

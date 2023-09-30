@@ -10,24 +10,16 @@ use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
+    public function __construct(private Task $task)
+    {
+        
+    }
+
     public function index(Request $request): JsonResponse
     {
         try {
 
-            $title = $request->query('title');
-            $description = $request->query('description');
-            //Obtener las tareas del usuario logueado, buscando por titulo
-            
-
-            $tasks = Task::where('user_id', auth()->user()->id)->where(function ($query) use ($title, $description) {
-                if ($title) {
-                    $query->where('title', 'like', '%' . $title . '%');
-                }
-                if ($description) {
-                    $query->where('description', 'like', '%' . $description . '%');
-                }
-
-            })->get();
+            $tasks = $this->task->searchByTitleOrDescription($request);
 
             if ($tasks->isEmpty()) {
                 return response()->json(['message' => 'No data'], 404);

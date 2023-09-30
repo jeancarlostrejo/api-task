@@ -6,15 +6,28 @@ use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
 use App\Models\Task;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
         try {
 
-            //Obtener las tareas del usuario logueado
-            $tasks = Task::where('user_id', auth()->user()->id)->get();
+            $title = $request->query('title');
+            $description = $request->query('description');
+            //Obtener las tareas del usuario logueado, buscando por titulo
+            
+
+            $tasks = Task::where('user_id', auth()->user()->id)->where(function ($query) use ($title, $description) {
+                if ($title) {
+                    $query->where('title', 'like', '%' . $title . '%');
+                }
+                if ($description) {
+                    $query->where('description', 'like', '%' . $description . '%');
+                }
+
+            })->get();
 
             if ($tasks->isEmpty()) {
                 return response()->json(['message' => 'No data'], 404);

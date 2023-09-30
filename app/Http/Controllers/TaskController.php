@@ -13,7 +13,8 @@ class TaskController extends Controller
     {
         try {
 
-            $tasks = Task::all();
+            //Obtener las tareas del usuario logueado
+            $tasks = Task::where('user_id', auth()->user()->id)->get();
 
             if ($tasks->isEmpty()) {
                 return response()->json(['message' => 'No data'], 404);

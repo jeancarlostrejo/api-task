@@ -4,7 +4,6 @@ namespace Database\Factories;
 
 use App\Models\Task;
 use App\Models\User;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -25,7 +24,7 @@ class TaskFactory extends Factory
         return [
             'title' => $this->faker->sentence('3'),
             'description' => $this->faker->paragraph(),
-            'deadline' => Carbon::create($this->faker->dateTimeBetween('now', '+1 month'))->toDate(),
+            'deadline' => $this->faker->dateTimeBetween('now', '+1 month'),
             'priority' => $this->faker->randomElement(Task::PRIORITY),
             'status' => $this->faker->randomElement(Task::STATUS),
             'user_id' => $this->faker->randomNumber(1, $numbersUser),

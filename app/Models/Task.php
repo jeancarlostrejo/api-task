@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Task extends Model
 {
     public const PRIORITY = ['high', 'medium', 'low'];
-    public const STATUS = ['pending', 'in_progress', 'completed'];
+    public const STATUS = ['pending', 'in_progress', 'completed', 'cancelled'];
 
     use HasFactory;
 
@@ -20,6 +20,10 @@ class Task extends Model
         'priority',
         'status',
         'user_id',
+    ];
+
+    protected $cast = [
+        'deadline' => 'date'
     ];
 
     public function user(): BelongsTo

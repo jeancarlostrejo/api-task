@@ -23,12 +23,11 @@ class UpdateTaskRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'required',
-            'description' => 'required',
-            'deadline' => 'required|date',
-            'priority' => 'required|in:' . implode(',', Task::PRIORITY),
-            'status' => 'required|in:' . implode(',', Task::STATUS),
-            'user_id' => 'nullable|exists:users,id',
+            'title' => 'nullable',
+            'description' => 'nullable',
+            'deadline' => 'nullable|date',
+            'priority' => 'nullable|in:' . implode(',', Task::PRIORITY),
+            'status' => 'nullable|in:' . implode(',', Task::STATUS),
         ];
     }
 }

@@ -28,22 +28,41 @@ class TaskController extends Controller
 
     public function store(StoreTaskRequest $request): JsonResponse
     {
-        $taskCreated = Task::create($request->validated());
+        $newTask = new Task;
 
-        return response()->json(['data' => $taskCreated], 201);
+        $newTask->fill($request->validated());
+
+        $newTask->user_id = auth()->user()->id;
+        $newTask->save();
+
+        return response()->json(['data' => $newTask], 201);
     }
 
-    public function show(Task $task): JsonResponse
+    public function show($id): JsonResponse
     {
-        $task->load('user');
 
+        $task = Task::where('id', $id)->where('user_id', auth()->user()->id)->first();
+
+        if (!$task) {
+            return response()->json(['message' => 'Task Not Found'], 404);
+        }
+
+        $task->load('user');
         return response()->json($task);
     }
 
-    public function update(UpdateTaskRequest $request, Task $task): JsonResponse
+    public function update(UpdateTaskRequest $request, $id): JsonResponse
     {
         try {
-            $task->update($request->validated());
+
+            $task = Task::where('id', $id)->where('user_id', auth()->user()->id)->first();
+
+            if (!$task) {
+                return response()->json(['message' => 'Task Not Found'], 404);
+            }
+
+            $task->fill($request->validated());
+            $task->save();
 
             return response()->json(['message' => 'Task updated satisfully', "data" => $task]);
         } catch (\Throwable $th) {
@@ -51,8 +70,15 @@ class TaskController extends Controller
         }
     }
 
-    public function destroy(Task $task): JsonResponse
+    public function destroy($id): JsonResponse
     {
+
+        $task = Task::where('id', $id)->where('user_id', auth()->user()->id)->first();
+
+        if (!$task) {
+            return response()->json(['message' => 'Task Not Found'], 404);
+        }
+
         $task->delete();
 
         return response()->json(['message' => 'Task deleted satisfully'], 204);

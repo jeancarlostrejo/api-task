@@ -27,8 +27,6 @@ class StoreTaskRequest extends FormRequest
             'description' => 'required',
             'deadline' => 'required|date',
             'priority' => 'required|in:' . implode(',', Task::PRIORITY),
-            'status' => 'required|in:' . implode(',', Task::STATUS),
-            'user_id' => 'required|exists:users,id',
-        ];
+            'status' => 'required|in:' . implode(',', Task::STATUS)];
     }
 }

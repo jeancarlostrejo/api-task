@@ -19,7 +19,6 @@ class Task extends Model
         'deadline',
         'priority',
         'status',
-        'user_id',
     ];
 
     protected $cast = [
